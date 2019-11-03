@@ -1,67 +1,70 @@
 package com.cp.domain.computerparameters;
 
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
-import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 
 @org.springframework.stereotype.Repository
-interface ComputerParametersRepository extends Repository<ComputerParameters, Integer>, JpaSpecificationExecutor<Bios> {
+interface ComputerParametersRepository extends Repository<ComputerParameters, Integer>, JpaRepository<ComputerParameters,Integer> {
     @Query("select bios, computer from Bios bios , ComputerParameters computer " +
-            "where computer.name = :computerName")
-    Collection<Bios> findBiosByComputerName(@Param("computerName") String computerName);
+            "where computer.ipAddress = :ipAddress")
+    Collection<Bios> findBiosByIpAddress(String ipAddress);
 
     @Query("select captureDevice, computer from CaptureDevice captureDevice , ComputerParameters computer " +
-            "where computer.name = :computerName")
-    Collection<CaptureDevice> findCaptureDevicesByComputerName(@Param("computerName") String computerName);
+            "where computer.ipAddress = :ipAddress")
+    Collection<CaptureDevice> findCaptureDevicesByIpAddress(String ipAddress);
 
     @Query("select directInputDevice, computer from DirectInputDevice directInputDevice , ComputerParameters computer " +
-            "where computer.name = :computerName")
-    Collection<DirectInputDevice> findDirectInputDevicesByComputerName(String computerName);
+            "where computer.ipAddress = :ipAddress")
+    Collection<DirectInputDevice> findDirectInputDevicesByIpAddress(String ipAddress);
 
     @Query("select displayDevice, computer from DisplayDevice displayDevice , ComputerParameters computer " +
-            "where computer.name = :computerName")
-    Collection<DisplayDevice> findDisplayDevicesByComputerName(String computerName);
+            "where computer.ipAddress = :ipAddress")
+    Collection<DisplayDevice> findDisplayDevicesByIpAddress(String ipAddress);
 
     @Query("select hardDrive, computer from HardDrive hardDrive , ComputerParameters computer " +
-            "where computer.name = :computerName")
-    Collection<HardDrive> findHardDriveByComputerName(String computerName);
+            "where computer.ipAddress = :ipAddress")
+    Collection<HardDrive> findHardDriveByIpAddress(String ipAddress);
 
     @Query("select internalMemory, computer from InternalMemory internalMemory , ComputerParameters computer " +
-            "where computer.name = :computerName")
-    Collection<InternalMemory> findInternalMemoryByComputerName(String computerName);
+            "where computer.ipAddress = :ipAddress")
+    Collection<InternalMemory> findInternalMemoryByIpAddress(String ipAddress);
 
     @Query("select operatingSystem, computer from OperatingSystem operatingSystem , ComputerParameters computer " +
-            "where computer.name = :computerName")
-    Collection<OperatingSystem> findOperatingSystemsByComputerName(String computerName);
+            "where computer.ipAddress = :ipAddress")
+    Collection<OperatingSystem> findOperatingSystemsByIpAddress(String ipAddress);
 
     @Query("select processor, computer from Processor processor , ComputerParameters computer " +
-            "where computer.name = :computerName")
-    Collection<Processor> findProcessorsByComputerName(String computerName);
+            "where computer.ipAddress = :ipAddress")
+    Collection<Processor> findProcessorsByIpAddress(String ipAddress);
 
     @Query("select ps2Device, computer from Ps2Device ps2Device , ComputerParameters computer " +
-            "where computer.name = :computerName")
-    Collection<Ps2Device> findPs2DevicesByComputerName(String computerName);
+            "where computer.ipAddress = :ipAddress")
+    Collection<Ps2Device> findPs2DevicesByIpAddress(String ipAddress);
 
     @Query("select soundDevice, computer from SoundDevice soundDevice , ComputerParameters computer " +
-            "where computer.name = :computerName")
-    Collection<SoundDevice> findSoundDevicesByComputerName(String computerName);
+            "where computer.ipAddress = :ipAddress")
+    Collection<SoundDevice> findSoundDevicesByIpAddress(String ipAddress);
 
     @Query("select systemDevice, computer from SystemDevice systemDevice , ComputerParameters computer " +
-            "where computer.name = :computerName")
-    Collection<SystemDevice> findSystemDevicesByComputerName(String computerName);
+            "where computer.ipAddress = :ipAddress")
+    Collection<SystemDevice> findSystemDevicesByIpAddress(String ipAddress);
 
     @Query("select systemUser, computer from SystemUser systemUser , ComputerParameters computer " +
-            "where computer.name = :computerName")
-    Collection<SystemUser> findSystemUsersByComputerName(String computerName);
+            "where computer.ipAddress = :ipAddress")
+    Collection<SystemUser> findSystemUsersByIpAddress(String ipAddress);
 
     @Query("select usbDevice, computer from UsbDevice usbDevice , ComputerParameters computer " +
-            "where computer.name = :computerName")
-    Collection<UsbDevice> findUsbDevicesByComputerName(String computerName);
+            "where computer.ipAddress = :ipAddress")
+    Collection<UsbDevice> findUsbDevicesByIpAddress(String ipAddress);
 
     @Query("select videoDevice, computer from VideoDevice videoDevice , ComputerParameters computer " +
-            "where computer.name = :computerName")
-    Collection<VideoDevice> findVideoDevicesByComputerName(String computerName);
+            "where computer.ipAddress = :ipAddress")
+    Collection<VideoDevice> findVideoDevicesByIpAddress(String ipAddress);
+
+    ComputerParametersProjection findByIpAddress(String ipAddress);
+
+
 }

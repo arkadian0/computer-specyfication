@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Table(name = "direct_input_device")
 class DirectInputDevice {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
     @Column(name="device_name")

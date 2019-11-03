@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Table(name = "display_device")
 class DisplayDevice {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
     @Column(name = "card_name")

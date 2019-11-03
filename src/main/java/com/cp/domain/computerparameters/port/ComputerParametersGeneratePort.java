@@ -6,5 +6,5 @@ import javax.xml.bind.JAXBException;
 import java.io.IOException;
 
 public interface ComputerParametersGeneratePort {
-    ComputerParametersProjection generateComputerParameters() throws JAXBException, IOException, InterruptedException;
+    ComputerParametersProjection generateComputerParameters(String computerName, String ipAddress) throws JAXBException, IOException, InterruptedException;
 }

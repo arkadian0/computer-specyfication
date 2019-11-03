@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class BiosVM {
-    private Integer biosId;
     private String biosVersion;
     private String caption;
     private String currentLanguage;

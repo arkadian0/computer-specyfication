@@ -1,31 +1,40 @@
 package com.cp.domain.computerparameters;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface ComputerParametersProjection {
-    Collection<Bios> getBios();
 
-    Collection<CaptureDevice> getCaptureDevices();
+    Integer getComputerId();
 
-    Collection<DirectInputDevice> getDirectInputDevices();
+    List<Bios> getBios();
 
-    Collection<DisplayDevice> getDisplayDevices();
+    List<CaptureDevice> getCaptureDevices();
 
-    Collection<HardDrive> getHardDrives();
+    String getComputerName();
 
-    Collection<InternalMemory> getInternalMemories();
+    String getIpAddress();
 
-    Collection<Processor> getProcessors();
+    List<DirectInputDevice> getDirectInputDevices();
 
-    Collection<Ps2Device> getPs2Devices();
+    List<DisplayDevice> getDisplayDevices();
 
-    Collection<SoundDevice> getSoundDevices();
+    List<HardDrive> getHardDrives();
 
-    Collection<SystemDevice> getSystemDevices();
+    List<InternalMemory> getInternalMemories();
 
-    Collection<UsbDevice> getUsbDevices();
+    List<Processor> getProcessors();
 
-    Collection<User> getUsers();
+    List<Ps2Device> getPs2Devices();
 
-    Collection<VideoDevice> getVideoDevices();
+    List<SoundDevice> getSoundDevices();
+
+    List<SystemDevice> getSystemDevices();
+
+    List<UsbDevice> getUsbDevices();
+
+    List<SystemUser> getUsers();
+
+    List<VideoDevice> getVideoDevices();
+
+    List<OperatingSystem> getOperatingSystem();
 }

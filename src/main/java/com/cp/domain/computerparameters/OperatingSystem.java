@@ -52,6 +52,7 @@ class OperatingSystem {
     private String systemDpiSettings;
     @ManyToOne
     private ComputerParameters computer;
+
     private OperatingSystem(SystemInformationElement systemInformationElement) {
         this.avaliableOsMemory = systemInformationElement.getAvaliableOsMemory();
         this.time = systemInformationElement.getTime();

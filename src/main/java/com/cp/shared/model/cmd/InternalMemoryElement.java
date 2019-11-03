@@ -6,18 +6,18 @@ import java.util.List;
 
 @Data
 public class InternalMemoryElement {
-    String manufacturer;
-    String bankLabel;
-    String serialNumber;
-    String caption;
-    String description;
-    String name;
-    String deviceLocator;
-    String capacity;
-    String memoryType;
-    String typeDetail;
-    String speed;
-    String status;
+    private String manufacturer;
+    private String bankLabel;
+    private String serialNumber;
+    private String caption;
+    private String description;
+    private String name;
+    private String deviceLocator;
+    private String capacity;
+    private String memoryType;
+    private String typeDetail;
+    private String speed;
+    private String status;
 
     InternalMemoryElement(List<String> parameters) {
         this.bankLabel = getParameterFromSplitedString(parameters.get(0));

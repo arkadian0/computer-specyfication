@@ -15,10 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,9 +33,9 @@ class ComputerParametersUnmarshallAdapter extends CmdCommandValue implements Com
 
 
     @Override
-    public ComputerParametersProjection generateComputerParameters() throws IOException, InterruptedException {
-       List<DisplayDevice> displayDevices = generateGraphicCard();
-        OperatingSystem operatingSystem = generateOperatingSystem();
+    public ComputerParameters generateComputerParameters(String computerName, String ipAddress) throws IOException, InterruptedException {
+        List<DisplayDevice> displayDevices = generateGraphicCard();
+        List<OperatingSystem> operatingSystem = generateOperatingSystem();
         List<HardDrive> hardDrives = generateHardDrive();
         List<SoundDevice> soundDevices = generateSoundDevice();
         List<CaptureDevice> captureDevices = generateCaptureDevice();
@@ -51,23 +48,8 @@ class ComputerParametersUnmarshallAdapter extends CmdCommandValue implements Com
         List<DirectInputDevice> directInputDevices = generateDirectInputDevice();
         List<UsbDevice> usbDevices = generateUsbDevice();
         List<Ps2Device> ps2Devices = generatePs2Device();
-        /*return ComputerParameters.builder()
-                .displayDevices(displayDevices)
-                .bios(biosList)
-                .operatingSystem(operatingSystem)
-                .hardDrives(hardDrives)
-                .soundDevices(soundDevices)
-                .captureDevices(captureDevices)
-                .internalMemories(internalMemories)
-                .processors(processors)
-                .users(users)
-                .videoDevices(videoDevices)
-                .systemDevices(systemDevices)
-                .directInputDevices(directInputDevices)
-                .usbDevices(usbDevices)
-                .ps2Devices(ps2Devices)
-                .build();*/
-        return null;
+        return ComputerParameters.of(displayDevices, operatingSystem, hardDrives, soundDevices, captureDevices, biosList, internalMemories, processors, users, videoDevices, systemDevices, directInputDevices, usbDevices, ps2Devices,computerName,ipAddress);
+
     }
 
     List<DisplayDevice> generateGraphicCard() {
@@ -80,9 +62,15 @@ class ComputerParametersUnmarshallAdapter extends CmdCommandValue implements Com
                 .collect(Collectors.toList());
     }
 
-    OperatingSystem generateOperatingSystem() {
-        Optional<SystemInformationElement> systemInformationElements = Optional.ofNullable(dxDiagElement.getSystemInfomationElement());
-        return systemInformationElements.map(OperatingSystem::of).orElse(null);
+    List<OperatingSystem> generateOperatingSystem() {
+        List<SystemInformationElement> systemInformationElements = new ArrayList<>();
+        systemInformationElements.add(dxDiagElement.getSystemInfomationElement());
+        return Optional.ofNullable(systemInformationElements)
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .filter(Objects::nonNull)
+                .map(OperatingSystem::of)
+                .collect(Collectors.toList());
     }
 
     List<HardDrive> generateHardDrive() {
@@ -204,4 +192,6 @@ class ComputerParametersUnmarshallAdapter extends CmdCommandValue implements Com
                 .map(Ps2Device::of)
                 .collect(Collectors.toList());
     }
+
+
 }

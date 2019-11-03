@@ -10,5 +10,4 @@ import java.util.List;
 public class SystemDeviceVm {
     private String name;
     private String deviceKey;
-    private List<SystemDeviceDriverVm> systemDeviceDrivers;
 }

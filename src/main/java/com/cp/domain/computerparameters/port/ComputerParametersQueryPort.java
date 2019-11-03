@@ -1,23 +1,28 @@
 package com.cp.domain.computerparameters.port;
 
+import com.cp.domain.computerparameters.ComputerParametersProjection;
 import com.cp.domain.computerparameters.view.*;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface ComputerParametersQueryPort {
-    Collection<BiosVM> getBiosByComputerName(String computerName);
-    Collection<CaptureDeviceVm> getCaptureDevicesByComputerName(String computerName);
-    Collection<DirectInputDeviceVm> getDirectInputDevicesByComputerName(String computerName);
-    Collection<DisplayDeviceVm> getDisplayDevicesByComputerName(String computerName);
-    Collection<HardDriveVm> getHardDrivesByComputerName(String computerName);
-    Collection<InternalMemoryVm> getInternalMemoriesByComputerName(String computerName);
-    Collection<OperatingSystemVm> getOperatingSystemsByComputerName(String computerName);
-    Collection<ProcessorVm> getProcessorsByComputerName(String computerName);
-    Collection<Ps2DeviceVm> getPs2DevicesByComputerName(String computerName);
-    Collection<SoundDeviceVm> getSoundDevicesByComputerName(String computerName);
-    Collection<SystemDeviceVm> getSystemDevicesByComputerName(String computerName);
-    Collection<SystemUserVm> getSystemUsersByComputerName(String computerName);
-    Collection<UsbDeviceVm> getUsbDevicesByComputerName(String computerName);
-    Collection<VideoDeviceVm> getVideoDevicesByComputerName(String computerName);
-
+    Collection<BiosVM> getBiosByIpAddress(String ipAddress);
+    Collection<CaptureDeviceVm> getCaptureDevicesByIpAddress(String ipAddress);
+    Collection<DirectInputDeviceVm> getDirectInputDevicesByIpAddress(String ipAddress);
+    Collection<DisplayDeviceVm> getDisplayDevicesByIpAddress(String ipAddress);
+    Collection<HardDriveVm> getHardDrivesByIpAddress(String ipAddress);
+    Collection<InternalMemoryVm> getInternalMemoriesByIpAddress(String ipAddress);
+    Collection<OperatingSystemVm> getOperatingSystemsByIpAddress(String ipAddress);
+    Collection<ProcessorVm> getProcessorsByIpAddress(String ipAddress);
+    Collection<Ps2DeviceVm> getPs2DevicesByIpAddress(String ipAddress);
+    Collection<SoundDeviceVm> getSoundDevicesByIpAddress(String ipAddress);
+    Collection<SystemDeviceVm> getSystemDevicesByIpAddress(String ipAddress);
+    Collection<SystemUserVm> getSystemUsersByIpAddress(String ipAddress);
+    Collection<UsbDeviceVm> getUsbDevicesByIpAddress(String ipAddress);
+    Collection<VideoDeviceVm> getVideoDevicesByIpAddress(String ipAddress);
+    ComputerParametersProjection persistComputerParameters(ComputerParametersProjection computerParametersProjection);
+    Optional<ComputerParametersProjection> findComputerByIpAddress(String ipAddress);
+    void deleteComputerParametersById(Integer computerId);
+    Collection<ComputerParametersVm> getAllComputerParameters();
 }

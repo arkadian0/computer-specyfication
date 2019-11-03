@@ -3,17 +3,13 @@ package com.cp.domain.computerparameters;
 import com.cp.domain.computerparameters.view.*;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.List;
+
 
 @Component
 public class ComputerParametersParser {
     BiosVM parse(Bios bios) {
         return BiosVM.builder()
-                .biosId(bios.getBiosId())
                 .biosVersion(bios.getBiosVersion())
                 .caption(bios.getCaption())
                 .currentLanguage(bios.getCurrentLanguage())
@@ -169,27 +165,12 @@ public class ComputerParametersParser {
     }
 
     SystemDeviceVm parse(SystemDevice systemDevice) {
-        List<SystemDeviceDriverVm> systemDeviceDriverVms =  Optional.ofNullable(systemDevice.getSystemDeviceDriver())
-                .orElseGet(Collections::emptyList)
-                .stream()
-                .map(this::parse)
-                .collect(Collectors.toList());
         return SystemDeviceVm.builder()
                 .name(systemDevice.getName())
                 .deviceKey(systemDevice.getDeviceKey())
-                .systemDeviceDrivers(systemDeviceDriverVms)
                 .build();
     }
 
-    SystemDeviceDriverVm parse(SystemDeviceDriver systemDeviceDriver) {
-        return SystemDeviceDriverVm.builder()
-                .date(systemDeviceDriver.getDate())
-                .language(systemDeviceDriver.getLanguage())
-                .name(systemDeviceDriver.getName())
-                .path(systemDeviceDriver.getPath())
-                .version(systemDeviceDriver.getVersion())
-                .build();
-    }
 
     SystemUserVm parse(SystemUser systemUser) {
         return SystemUserVm.builder()
@@ -227,4 +208,28 @@ public class ComputerParametersParser {
                 .name(videoDevice.getName())
                 .build();
     }
+
+    ComputerParametersVm parse(ComputerParameters computerParameters) {
+        return ComputerParametersVm.builder()
+                .biosVM(computerParameters.getBios().stream().map(this::parse).collect(Collectors.toList()))
+                .captureDeviceVm(computerParameters.getCaptureDevices().stream().map(this::parse).collect(Collectors.toList()))
+                .directInputDeviceVm(computerParameters.getDirectInputDevices().stream().map(this::parse).collect(Collectors.toList()))
+                .displayDeviceVm(computerParameters.getDisplayDevices().stream().map(this::parse).collect(Collectors.toList()))
+                .hardDriveVm(computerParameters.getHardDrives().stream().map(this::parse).collect(Collectors.toList()))
+                .internalMemoryVm(computerParameters.getInternalMemories().stream().map(this::parse).collect(Collectors.toList()))
+                .operatingSystemVm(computerParameters.getOperatingSystem().stream().map(this::parse).collect(Collectors.toList()))
+                .processorVm(computerParameters.getProcessors().stream().map(this::parse).collect(Collectors.toList()))
+                .ps2DeviceVm(computerParameters.getPs2Devices().stream().map(this::parse).collect(Collectors.toList()))
+                .soundDeviceVm(computerParameters.getSoundDevices().stream().map(this::parse).collect(Collectors.toList()))
+                .systemDeviceVm(computerParameters.getSystemDevices().stream().map(this::parse).collect(Collectors.toList()))
+                .systemUserVm(computerParameters.getUsers().stream().map(this::parse).collect(Collectors.toList()))
+                .usbDeviceVm(computerParameters.getUsbDevices().stream().map(this::parse).collect(Collectors.toList()))
+                .videoDeviceVm(computerParameters.getVideoDevices().stream().map(this::parse).collect(Collectors.toList()))
+                .computerName(computerParameters.getComputerName())
+                .ipAddress(computerParameters.getIpAddress())
+                .computerId(computerParameters.getComputerId())
+                .build();
+
+    }
+
 }

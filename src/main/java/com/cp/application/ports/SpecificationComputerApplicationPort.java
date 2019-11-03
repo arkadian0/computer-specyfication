@@ -7,5 +7,6 @@ import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.util.Collection;
 
-public interface SpecificationComputerPort {
+public interface SpecificationComputerApplicationPort {
+    ComputerParametersProjection generateAndReturnComputerParameters(String computerName,String ipAddress) throws InterruptedException, JAXBException, IOException;
 }
