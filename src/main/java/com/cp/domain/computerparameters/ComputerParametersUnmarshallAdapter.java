@@ -2,11 +2,9 @@ package com.cp.domain.computerparameters;
 
 import com.cp.config.CmdCommandValue;
 import com.cp.domain.computerparameters.port.ComputerParametersGeneratePort;
-import com.cp.infrastructure.unmarshall.port.UnmarshallPort;
-import com.cp.shared.model.cmd.BiosElement;
-import com.cp.shared.model.cmd.InternalMemoryElement;
-import com.cp.shared.model.cmd.ProcessorElement;
-import com.cp.shared.model.cmd.UserElement;
+import com.cp.infrastructure.unmarshall.port.UnmarshallCmdPort;
+import com.cp.infrastructure.unmarshall.port.UnmarshallXmlPort;
+import com.cp.shared.model.cmd.*;
 import com.cp.shared.model.xml.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,20 +20,21 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 class ComputerParametersUnmarshallAdapter extends CmdCommandValue implements ComputerParametersGeneratePort {
 
-    private final UnmarshallPort unmarshallPort;
+    private final UnmarshallCmdPort unmarshallCmdPort;
+    private final UnmarshallXmlPort unmarshallXml;
     private final File xmlFileToUnMarshall;
     private DxDiagElement dxDiagElement;
 
     @PostConstruct
     private void postConstruct() throws JAXBException {
-        dxDiagElement = unmarshallPort.unmarshallXml(xmlFileToUnMarshall, DxDiagElement.class);
+        dxDiagElement = unmarshallXml.unmarshall(xmlFileToUnMarshall, DxDiagElement.class);
     }
 
 
     @Override
     public ComputerParameters generateComputerParameters(String computerName, String ipAddress) throws IOException, InterruptedException {
         List<DisplayDevice> displayDevices = generateGraphicCard();
-        List<OperatingSystem> operatingSystem = generateOperatingSystem();
+        List<OperatingSystem> operatingSystems = generateOperatingSystem();
         List<HardDrive> hardDrives = generateHardDrive();
         List<SoundDevice> soundDevices = generateSoundDevice();
         List<CaptureDevice> captureDevices = generateCaptureDevice();
@@ -48,7 +47,9 @@ class ComputerParametersUnmarshallAdapter extends CmdCommandValue implements Com
         List<DirectInputDevice> directInputDevices = generateDirectInputDevice();
         List<UsbDevice> usbDevices = generateUsbDevice();
         List<Ps2Device> ps2Devices = generatePs2Device();
-        return ComputerParameters.of(displayDevices, operatingSystem, hardDrives, soundDevices, captureDevices, biosList, internalMemories, processors, users, videoDevices, systemDevices, directInputDevices, usbDevices, ps2Devices,computerName,ipAddress);
+        List<NetworkCard> networkCards = generateNetworkCard();
+        List<InstalledApplication> installedApplications = generateInstalledApplication();
+        return ComputerParameters.of(displayDevices, operatingSystems, hardDrives, soundDevices, captureDevices, biosList, internalMemories, processors, users, videoDevices, systemDevices, directInputDevices, usbDevices, ps2Devices, computerName, ipAddress,networkCards,installedApplications);
 
     }
 
@@ -103,8 +104,8 @@ class ComputerParametersUnmarshallAdapter extends CmdCommandValue implements Com
                 .collect(Collectors.toList());
     }
 
-    List<InternalMemory> genetareInternalMemory() throws IOException, InterruptedException {
-        List<InternalMemoryElement> internalMemoryElements = unmarshallPort.unmarshallInternalMemoryParameters(cmdInternalMemoryInfoCommand, cmdNumberOfParameterInternalMemory);
+    List<InternalMemory> genetareInternalMemory() throws IOException {
+        List<InternalMemoryElement> internalMemoryElements = unmarshallCmdPort.unmarshallInternalMemoryParameters(cmdInternalMemoryInfoCommand, cmdNumberOfParameterInternalMemory);
         return Optional.ofNullable(internalMemoryElements)
                 .orElseGet(Collections::emptyList)
                 .stream()
@@ -113,8 +114,8 @@ class ComputerParametersUnmarshallAdapter extends CmdCommandValue implements Com
                 .collect(Collectors.toList());
     }
 
-    List<Processor> generateProcessor() throws IOException, InterruptedException {
-        List<ProcessorElement> processorElements = unmarshallPort.unmarshallProcessorParameters(cmdProcessorInfoCommand, cmdNumberOfParameterProcessor);
+    List<Processor> generateProcessor() throws IOException {
+        List<ProcessorElement> processorElements = unmarshallCmdPort.unmarshallProcessorParameters(cmdProcessorInfoCommand, cmdNumberOfParameterProcessor);
         return Optional.ofNullable(processorElements)
                 .orElseGet(Collections::emptyList)
                 .stream()
@@ -123,8 +124,8 @@ class ComputerParametersUnmarshallAdapter extends CmdCommandValue implements Com
                 .collect(Collectors.toList());
     }
 
-    List<Bios> generateBios() throws IOException, InterruptedException {
-        List<BiosElement> biosElements = unmarshallPort.unmarshallBiosParameters(cmdBiosInfoCommand, cmdNumberOfParameterBios);
+    List<Bios> generateBios() throws IOException {
+        List<BiosElement> biosElements = unmarshallCmdPort.unmarshallBiosParameters(cmdBiosInfoCommand, cmdNumberOfParameterBios);
         return Optional.ofNullable(biosElements)
                 .orElseGet(Collections::emptyList)
                 .stream()
@@ -133,8 +134,8 @@ class ComputerParametersUnmarshallAdapter extends CmdCommandValue implements Com
                 .collect(Collectors.toList());
     }
 
-    List<SystemUser> generateUser() throws IOException, InterruptedException {
-        List<UserElement> userElements = unmarshallPort.unmarshallUserParameters(cmdUserInfoCommand, cmdNumberOfParameterUser);
+    List<SystemUser> generateUser() throws IOException {
+        List<UserElement> userElements = unmarshallCmdPort.unmarshallUserParameters(cmdUserInfoCommand, cmdNumberOfParameterUser);
         return Optional.ofNullable(userElements)
                 .orElseGet(Collections::emptyList)
                 .stream()
@@ -193,5 +194,23 @@ class ComputerParametersUnmarshallAdapter extends CmdCommandValue implements Com
                 .collect(Collectors.toList());
     }
 
+    List<InstalledApplication> generateInstalledApplication() throws IOException {
+        List<InstalledApplicationElement> installedApplicationElements = unmarshallCmdPort.unmarshallInstalledApplication(cmdInstalledApplicationInfoCommand, cmdNumberOfParameterInstalledApplication);
+        return Optional.ofNullable(installedApplicationElements)
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .filter(Objects::nonNull)
+                .map(InstalledApplication::of)
+                .collect(Collectors.toList());
+    }
 
+    List<NetworkCard> generateNetworkCard() throws IOException {
+        List<NetworkCardElement> networkCardElements = unmarshallCmdPort.unmarshallNetwokCard(cmdNetworkCardInfoCommand, cmdNumberOfParameterNetworkCard);
+        return Optional.ofNullable(networkCardElements)
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .filter(Objects::nonNull)
+                .map(NetworkCard::of)
+                .collect(Collectors.toList());
+    }
 }

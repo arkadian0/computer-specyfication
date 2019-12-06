@@ -1,23 +1,28 @@
 package com.cp.client.findingcomputers;
 
-import com.cp.application.ports.FindComputersPort;
+import com.cp.application.ports.FindComputersApplicationPort;
+import com.cp.client.transfer.ComputerInNetworkDTO;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping(value = "/search")
 public class FindComputersController {
 
-    private final FindComputersPort findComputersPort;
+    private final FindComputersApplicationPort findComputersApplicationPort;
 
-    @GetMapping("/active-computers")
-    public List<String> getActiveComputerByIpRangeInLocalArea(@Valid @RequestBody AddressRangeCommand addressRangeCommand) {
-        return findComputersPort.getActiveComputersByIpRangeInLocalArea(addressRangeCommand);
+    @PostMapping("/active-computers")
+    public List<ComputerInNetworkDTO> getActiveComputerByIpRangeInLocalArea(@Valid @RequestBody AddressRangeCommand addressRangeCommand) {
+        return findComputersApplicationPort.getActiveComputersByIpRangeInLocalArea(addressRangeCommand);
+    }
+
+    @GetMapping("/isActive")
+    public boolean checkComputerResponse() {
+        return true;
     }
 }
 

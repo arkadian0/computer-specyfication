@@ -36,5 +36,9 @@ public interface ComputerParametersProjection {
 
     List<VideoDevice> getVideoDevices();
 
-    List<OperatingSystem> getOperatingSystem();
+    List<OperatingSystem> getOperatingSystems();
+
+    List<InstalledApplication> getInstalledApplications();
+
+    List<NetworkCard> getNetworkCards();
 }

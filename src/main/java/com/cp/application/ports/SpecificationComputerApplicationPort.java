@@ -8,5 +8,8 @@ import java.io.IOException;
 import java.util.Collection;
 
 public interface SpecificationComputerApplicationPort {
-    ComputerParametersProjection generateAndReturnComputerParameters(String computerName,String ipAddress) throws InterruptedException, JAXBException, IOException;
+
+    boolean isGeneratedComputerParameters(String ipAddress);
+
+    ComputerParametersProjection persistComputerParameters(String computerName,String ipAddress) throws InterruptedException, JAXBException, IOException;;
 }

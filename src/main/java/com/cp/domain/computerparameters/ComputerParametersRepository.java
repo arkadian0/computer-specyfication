@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @org.springframework.stereotype.Repository
@@ -64,7 +65,18 @@ interface ComputerParametersRepository extends Repository<ComputerParameters, In
             "where computer.ipAddress = :ipAddress")
     Collection<VideoDevice> findVideoDevicesByIpAddress(String ipAddress);
 
+    @Query("select networkCard, computer from NetworkCard networkCard , ComputerParameters computer " +
+            "where computer.ipAddress = :ipAddress")
+    Collection<NetworkCard> findNetworkCardsByIpAddress(String ipAddress);
+
+    @Query("select installedApplication, computer from InstalledApplication installedApplication , ComputerParameters computer " +
+            "where computer.ipAddress = :ipAddress")
+    Collection<InstalledApplication> findInstalledApplicationsByIpAddress(String ipAddress);
+
     ComputerParametersProjection findByIpAddress(String ipAddress);
 
+    @Query("select generationDate from ComputerParameters computer " +
+            "where computer.ipAddress = :ipAddress")
+    LocalDateTime findGnerationDateByIpAddress(String ipAddress);
 
 }

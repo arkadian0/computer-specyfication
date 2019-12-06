@@ -5,6 +5,7 @@ import com.cp.domain.computerparameters.view.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -176,8 +177,42 @@ public class ComputerParametersQueryAdapter implements ComputerParametersQueryPo
     }
 
     @Override
-    public List<ComputerParametersVm> getAllComputerParameters() {
-        return computerParametersRepository.findAll().stream().map(parser::parse).collect(Collectors.toList());
+    public LocalDateTime getGenerationDateByIpAddress(String ipAddress) {
+        return computerParametersRepository.findGnerationDateByIpAddress(ipAddress);
     }
 
+    @Override
+    public List<ComputerParametersVm> getComputerParameterfOfAllComputers() {
+        return computerParametersRepository.findAll()
+                .stream()
+                .map(parser::parse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<NetworkCardVm> getNetworkCardsByComputerName(String ipAddress) {
+        Collection<NetworkCard> networkCards = computerParametersRepository.findNetworkCardsByIpAddress(ipAddress);
+        return Optional.ofNullable(networkCards)
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .map(parser::parse)
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public Collection<InstalledApplicationVm> getInstalledApplicationByComputerName(String ipAddress) {
+        Collection<InstalledApplication> installedApplications = computerParametersRepository.findInstalledApplicationsByIpAddress(ipAddress);
+        return Optional.ofNullable(installedApplications)
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .map(parser::parse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public ComputerParametersVm getComputerParametersByIpAddress(String ipAddress) {
+        ComputerParametersProjection computerParametersProjection = computerParametersRepository.findByIpAddress(ipAddress);
+        return parser.parse(ComputerParameters.of(computerParametersProjection));
+    }
 }

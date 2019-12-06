@@ -1,10 +1,7 @@
 package com.cp.infrastructure.unmarshall;
 
-import com.cp.infrastructure.unmarshall.port.UnmarshallPort;
-import com.cp.shared.model.cmd.BiosElement;
-import com.cp.shared.model.cmd.InternalMemoryElement;
-import com.cp.shared.model.cmd.ProcessorElement;
-import com.cp.shared.model.cmd.UserElement;
+import com.cp.infrastructure.unmarshall.port.UnmarshallCmdPort;
+import com.cp.shared.model.cmd.*;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBContext;
@@ -19,18 +16,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UnmarshallAdapter implements UnmarshallPort {
+public class UnmarshallCmdAdapter implements UnmarshallCmdPort {
 
     @Override
-    public <T> T unmarshallXml(File file, Class<T> unmarshallClass) throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(unmarshallClass);
-        Unmarshaller unmarshallerObj = jaxbContext.createUnmarshaller();
-        return (T) unmarshallerObj.unmarshal(file);
-    }
-
-
-    @Override
-    public List<ProcessorElement> unmarshallProcessorParameters(String command, Integer numberOfParameters) throws IOException, InterruptedException {
+    public List<ProcessorElement> unmarshallProcessorParameters(String command, Integer numberOfParameters) throws IOException {
         List<String> list = getCmdCommandAsList(command);
         return createListWithCmdParameters(list, numberOfParameters).stream()
                 .map(ProcessorElement::of)
@@ -38,7 +27,7 @@ public class UnmarshallAdapter implements UnmarshallPort {
     }
 
     @Override
-    public List<BiosElement> unmarshallBiosParameters(String command, Integer numberOfParameters) throws IOException, InterruptedException {
+    public List<BiosElement> unmarshallBiosParameters(String command, Integer numberOfParameters) throws IOException {
         List<String> list = getCmdCommandAsList(command);
         return createListWithCmdParameters(list, numberOfParameters).stream()
                 .map(BiosElement::of)
@@ -46,7 +35,7 @@ public class UnmarshallAdapter implements UnmarshallPort {
     }
 
     @Override
-    public List<UserElement> unmarshallUserParameters(String command, Integer numberOfParameters) throws IOException, InterruptedException {
+    public List<UserElement> unmarshallUserParameters(String command, Integer numberOfParameters) throws IOException {
         List<String> list = getCmdCommandAsList(command);
         return createListWithCmdParameters(list, numberOfParameters).stream()
                 .map(UserElement::of)
@@ -54,16 +43,31 @@ public class UnmarshallAdapter implements UnmarshallPort {
     }
 
     @Override
-    public List<InternalMemoryElement> unmarshallInternalMemoryParameters(String command, Integer numberOfParameters) throws IOException, InterruptedException {
+    public List<InstalledApplicationElement> unmarshallInstalledApplication(String command, Integer numberOfParameters) throws IOException {
+        List<String> list = getCmdCommandAsList(command);
+        return createListWithCmdParameters(list, numberOfParameters).stream()
+                .map(InstalledApplicationElement::of)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<NetworkCardElement> unmarshallNetwokCard(String command, Integer numberOfParameters) throws IOException {
+        List<String> list = getCmdCommandAsList(command);
+        return createListWithCmdParameters(list, numberOfParameters).stream()
+                .map(NetworkCardElement::of)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<InternalMemoryElement> unmarshallInternalMemoryParameters(String command, Integer numberOfParameters) throws IOException {
         List<String> list = getCmdCommandAsList(command);
         return createListWithCmdParameters(list, numberOfParameters).stream()
                 .map(InternalMemoryElement::of)
                 .collect(Collectors.toList());
     }
 
-    private List<String> getCmdCommandAsList(String command) throws IOException, InterruptedException {
+    private List<String> getCmdCommandAsList(String command) throws IOException {
         Process p = Runtime.getRuntime().exec(command);
-        p.waitFor();
         BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
         return reader.lines()
                 .filter(str -> !str.isEmpty())
@@ -78,7 +82,7 @@ public class UnmarshallAdapter implements UnmarshallPort {
     }
 
     private static void addListOfParametersToList(List<String> list, List<List<String>> parametersList, List<String> tempList, Integer numberOfParameters) {
-        Integer counter = 1;
+        int counter = 1;
         for (String str : list) {
             tempList.add(str);
             if (isLastParameterInGroup(counter++, numberOfParameters)) {

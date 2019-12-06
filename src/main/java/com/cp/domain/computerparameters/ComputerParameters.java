@@ -4,6 +4,8 @@ package com.cp.domain.computerparameters;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -17,10 +19,12 @@ class ComputerParameters implements ComputerParametersProjection {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer computerId;
-    @Column(name = "name",unique = true)
+    @Column(name = "name")
     private String computerName;
     @Column(name = "ip_address",unique = true)
     private String ipAddress;
+    @Column(name = "generation_date", nullable = false)
+    private LocalDateTime generationDate;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="computer_id")
     private List<Bios> bios;
@@ -62,7 +66,14 @@ class ComputerParameters implements ComputerParametersProjection {
     private List<VideoDevice> videoDevices;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="computer_id")
-    private List<OperatingSystem> operatingSystem;
+    List<NetworkCard> networkCards;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="computer_id")
+    List<InstalledApplication> installedApplications;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="computer_id")
+    private List<OperatingSystem> operatingSystems;
+
 
     public ComputerParameters(ComputerParametersProjection computerParametersProjection) {
         this.bios = computerParametersProjection.getBios();
@@ -72,7 +83,7 @@ class ComputerParameters implements ComputerParametersProjection {
         this.hardDrives = computerParametersProjection.getHardDrives();
         this.internalMemories = computerParametersProjection.getInternalMemories();
         this.computerName = computerParametersProjection.getComputerName();
-        this.operatingSystem = computerParametersProjection.getOperatingSystem();
+        this.operatingSystems = computerParametersProjection.getOperatingSystems();
         this.processors = computerParametersProjection.getProcessors();
         this.ps2Devices = computerParametersProjection.getPs2Devices();
         this.soundDevices = computerParametersProjection.getSoundDevices();
@@ -82,12 +93,15 @@ class ComputerParameters implements ComputerParametersProjection {
         this.videoDevices = computerParametersProjection.getVideoDevices();
         this.computerId = computerParametersProjection.getComputerId();
         this.ipAddress = computerParametersProjection.getIpAddress();
+        this.installedApplications = computerParametersProjection.getInstalledApplications();
+        this.networkCards = computerParametersProjection.getNetworkCards();
+        this.generationDate = LocalDateTime.now();
     }
 
-    public ComputerParameters(List<DisplayDevice> displayDevices, List<OperatingSystem> operatingSystem, List<HardDrive> hardDrives, List<SoundDevice> soundDevices, List<CaptureDevice> captureDevices, List<Bios> biosList, List<InternalMemory> internalMemories, List<Processor> processors, List<SystemUser> users,
-                              List<VideoDevice> videoDevices, List<SystemDevice> systemDevices, List<DirectInputDevice> directInputDevices, List<UsbDevice> usbDevices, List<Ps2Device> ps2Devices, String computerName, String ipAddress) {
+    public ComputerParameters(List<DisplayDevice> displayDevices, List<OperatingSystem> operatingSystems, List<HardDrive> hardDrives, List<SoundDevice> soundDevices, List<CaptureDevice> captureDevices, List<Bios> biosList, List<InternalMemory> internalMemories, List<Processor> processors, List<SystemUser> users,
+                              List<VideoDevice> videoDevices, List<SystemDevice> systemDevices, List<DirectInputDevice> directInputDevices, List<UsbDevice> usbDevices, List<Ps2Device> ps2Devices, String computerName, String ipAddress, List<NetworkCard> networkCards, List<InstalledApplication> installedApplications) {
             this.displayDevices = displayDevices;
-            this.operatingSystem = operatingSystem;
+            this.operatingSystems = operatingSystems;
             this.hardDrives = hardDrives;
             this.soundDevices = soundDevices;
             this.captureDevices = captureDevices;
@@ -102,6 +116,9 @@ class ComputerParameters implements ComputerParametersProjection {
             this.ps2Devices = ps2Devices;
             this.computerName = computerName;
             this.ipAddress = ipAddress;
+            this.networkCards = networkCards;
+            this.installedApplications = installedApplications;
+
 
     }
 
@@ -109,10 +126,10 @@ class ComputerParameters implements ComputerParametersProjection {
         return new ComputerParameters(computerParametersProjection);
     }
 
-    public static ComputerParameters of(List<DisplayDevice> displayDevices, List<OperatingSystem> operatingSystem, List<HardDrive> hardDrives, List<SoundDevice> soundDevices, List<CaptureDevice> captureDevices, List<Bios> biosList, List<InternalMemory> internalMemories, List<Processor> processors,
-                                        List<SystemUser> users, List<VideoDevice> videoDevices, List<SystemDevice> systemDevices, List<DirectInputDevice> directInputDevices, List<UsbDevice> usbDevices, List<Ps2Device> ps2Devices, String computerName, String ipAddress) {
-        return new ComputerParameters(displayDevices, operatingSystem, hardDrives, soundDevices,
+    public static ComputerParameters of(List<DisplayDevice> displayDevices, List<OperatingSystem> operatingSystems, List<HardDrive> hardDrives, List<SoundDevice> soundDevices, List<CaptureDevice> captureDevices, List<Bios> biosList, List<InternalMemory> internalMemories, List<Processor> processors,
+                                        List<SystemUser> users, List<VideoDevice> videoDevices, List<SystemDevice> systemDevices, List<DirectInputDevice> directInputDevices, List<UsbDevice> usbDevices, List<Ps2Device> ps2Devices, String computerName, String ipAddress, List<NetworkCard> networkCards, List<InstalledApplication> installedApplications) {
+        return new ComputerParameters(displayDevices, operatingSystems, hardDrives, soundDevices,
                 captureDevices, biosList, internalMemories, processors, users, videoDevices, systemDevices, directInputDevices,
-                usbDevices, ps2Devices, computerName, ipAddress);
+                usbDevices, ps2Devices, computerName, ipAddress,networkCards,installedApplications);
     }
 }

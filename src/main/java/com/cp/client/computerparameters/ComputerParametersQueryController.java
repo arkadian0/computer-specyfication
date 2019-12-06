@@ -1,29 +1,23 @@
 package com.cp.client.computerparameters;
 
 import com.cp.application.ports.SpecificationComputerApplicationPort;
-import com.cp.domain.computerparameters.ComputerParametersProjection;
 import com.cp.domain.computerparameters.port.ComputerParametersQueryPort;
 import com.cp.domain.computerparameters.view.*;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.xml.bind.JAXBException;
-import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @RestController
 @AllArgsConstructor
-public class ComputerParametersController {
+@RequestMapping(value = "/parameter")
+public class ComputerParametersQueryController {
     private final SpecificationComputerApplicationPort specificationComputerApplicationPort;
     private final ComputerParametersQueryPort computerParametersQueryPort;
-
-    @PostMapping("/generate-parameters/{computerName}/{ipAddress}")
-    public ComputerParametersProjection getOperatingSystem(@PathVariable String computerName, @PathVariable String ipAddress) throws InterruptedException, JAXBException, IOException {
-        return specificationComputerApplicationPort.generateAndReturnComputerParameters(computerName,ipAddress);
-    }
 
     @GetMapping("/bios/{ipAddress}")
     public Collection<BiosVM> getBiosParametersByComputerName(@PathVariable String ipAddress){
@@ -95,9 +89,33 @@ public class ComputerParametersController {
         return computerParametersQueryPort.getVideoDevicesByIpAddress(ipAddress);
     }
 
+    @GetMapping("/network-cards/{ipAddress}")
+    public Collection<NetworkCardVm> getNetworkCardsByComputerName(@PathVariable String ipAddress){
+        return computerParametersQueryPort.getNetworkCardsByComputerName(ipAddress);
+    }
+
+    @GetMapping("/installed-applications/{ipAddress}")
+    public Collection<InstalledApplicationVm> getInstalledApplicationByComputerName(@PathVariable String ipAddress){
+        return computerParametersQueryPort.getInstalledApplicationByComputerName(ipAddress);
+    }
+
     @GetMapping("/all-parameters")
-    public Collection<ComputerParametersVm> getAllComputerParameters(){
-        return computerParametersQueryPort.getAllComputerParameters();
+    public Collection<ComputerParametersVm> getComputerParameterfOfAllComputers(){
+        return computerParametersQueryPort.getComputerParameterfOfAllComputers();
+    }
+    @GetMapping("/all-parameters/{ipAddress}")
+    public ComputerParametersVm getComputerParametersByIpAddress(@PathVariable String ipAddress){
+        return computerParametersQueryPort.getComputerParametersByIpAddress(ipAddress);
+    }
+
+    @GetMapping("/generated/{ipAddress}")
+    public boolean isGeneratedComputerParameters(@PathVariable String ipAddress) {
+        return specificationComputerApplicationPort.isGeneratedComputerParameters(ipAddress);
+    }
+
+    @GetMapping("/generation-date/{ipAddress}")
+    public LocalDateTime getGenerationDateByIpAddress(@PathVariable String ipAddress) {
+        return computerParametersQueryPort.getGenerationDateByIpAddress(ipAddress);
     }
 
 }

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class CmdCommandValue {
 
-
     @Value("${cmd.command.internal-memory-parameters}")
     public String cmdInternalMemoryInfoCommand;
 
@@ -28,4 +27,16 @@ public class CmdCommandValue {
 
     @Value("${cmd.number-of-parameters.user}")
     public Integer cmdNumberOfParameterUser;
+
+    @Value("${cmd.command.network-card}")
+    public String cmdNetworkCardInfoCommand;
+
+    @Value("${cmd.number-of-parameters.network-card}")
+    public Integer cmdNumberOfParameterNetworkCard;
+
+    @Value("${cmd.command.installed-application}")
+    public String cmdInstalledApplicationInfoCommand;
+
+    @Value("${cmd.number-of-parameters.installed-application}")
+    public Integer cmdNumberOfParameterInstalledApplication;
 }

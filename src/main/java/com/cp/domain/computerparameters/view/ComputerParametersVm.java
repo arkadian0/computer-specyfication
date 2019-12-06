@@ -1,7 +1,10 @@
 package com.cp.domain.computerparameters.view;
 
+import com.cp.domain.computerparameters.NetworkCard;
 import lombok.Builder;
 import lombok.Data;
+import sun.nio.ch.Net;
+
 import java.util.List;
 
 @Builder
@@ -24,4 +27,6 @@ public class ComputerParametersVm {
     private List<SystemUserVm> systemUserVm;
     private List<UsbDeviceVm> usbDeviceVm;
     private List<VideoDeviceVm> videoDeviceVm;
+    private List<InstalledApplicationVm> installedApplicationVm;
+    private List<NetworkCardVm> networkCardVms;
 }

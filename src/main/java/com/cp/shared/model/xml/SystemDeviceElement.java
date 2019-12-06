@@ -23,6 +23,4 @@ public class SystemDeviceElement {
     @XmlElement(name = "DeviceKey")
     private String deviceKey;
 
-    @XmlElement(name = "Drivers")
-    private SystemDeviceDriversElement systemDeviceDriver;
 }

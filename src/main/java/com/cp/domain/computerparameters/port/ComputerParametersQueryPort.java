@@ -3,6 +3,7 @@ package com.cp.domain.computerparameters.port;
 import com.cp.domain.computerparameters.ComputerParametersProjection;
 import com.cp.domain.computerparameters.view.*;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -23,6 +24,10 @@ public interface ComputerParametersQueryPort {
     Collection<VideoDeviceVm> getVideoDevicesByIpAddress(String ipAddress);
     ComputerParametersProjection persistComputerParameters(ComputerParametersProjection computerParametersProjection);
     Optional<ComputerParametersProjection> findComputerByIpAddress(String ipAddress);
+    Collection<ComputerParametersVm> getComputerParameterfOfAllComputers();
+    Collection<NetworkCardVm> getNetworkCardsByComputerName(String ipAddress);
+    Collection<InstalledApplicationVm> getInstalledApplicationByComputerName(String ipAddress);
+    ComputerParametersVm getComputerParametersByIpAddress(String ipAddress);
     void deleteComputerParametersById(Integer computerId);
-    Collection<ComputerParametersVm> getAllComputerParameters();
+    LocalDateTime getGenerationDateByIpAddress(String ipAddress);
 }

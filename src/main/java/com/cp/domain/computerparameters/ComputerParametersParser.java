@@ -217,7 +217,7 @@ public class ComputerParametersParser {
                 .displayDeviceVm(computerParameters.getDisplayDevices().stream().map(this::parse).collect(Collectors.toList()))
                 .hardDriveVm(computerParameters.getHardDrives().stream().map(this::parse).collect(Collectors.toList()))
                 .internalMemoryVm(computerParameters.getInternalMemories().stream().map(this::parse).collect(Collectors.toList()))
-                .operatingSystemVm(computerParameters.getOperatingSystem().stream().map(this::parse).collect(Collectors.toList()))
+                .operatingSystemVm(computerParameters.getOperatingSystems().stream().map(this::parse).collect(Collectors.toList()))
                 .processorVm(computerParameters.getProcessors().stream().map(this::parse).collect(Collectors.toList()))
                 .ps2DeviceVm(computerParameters.getPs2Devices().stream().map(this::parse).collect(Collectors.toList()))
                 .soundDeviceVm(computerParameters.getSoundDevices().stream().map(this::parse).collect(Collectors.toList()))
@@ -225,6 +225,8 @@ public class ComputerParametersParser {
                 .systemUserVm(computerParameters.getUsers().stream().map(this::parse).collect(Collectors.toList()))
                 .usbDeviceVm(computerParameters.getUsbDevices().stream().map(this::parse).collect(Collectors.toList()))
                 .videoDeviceVm(computerParameters.getVideoDevices().stream().map(this::parse).collect(Collectors.toList()))
+                .installedApplicationVm(computerParameters.getInstalledApplications().stream().map(this::parse).collect(Collectors.toList()))
+                .networkCardVms(computerParameters.getNetworkCards().stream().map(this::parse).collect(Collectors.toList()))
                 .computerName(computerParameters.getComputerName())
                 .ipAddress(computerParameters.getIpAddress())
                 .computerId(computerParameters.getComputerId())
@@ -232,4 +234,42 @@ public class ComputerParametersParser {
 
     }
 
+
+    NetworkCardVm parse(NetworkCard networkCard) {
+        return NetworkCardVm.builder()
+                .adapterType(networkCard.getAdapterType())
+                .caption(networkCard.getCaption())
+                .description(networkCard.getDescription())
+                .installDate(networkCard.getInstallDate())
+                .installed(networkCard.getInstalled())
+                .lastErrorCode(networkCard.getLastErrorCode())
+                .macAddress(networkCard.getMacAddress())
+                .manufacturer(networkCard.getManufacturer())
+                .maxSpeed(networkCard.getMaxSpeed())
+                .name(networkCard.getName())
+                .netConnectionStatus(networkCard.getNetConnectionStatus())
+                .netEnabled(networkCard.getNetEnabled())
+                .networkAddresses(networkCard.getNetworkAddresses())
+                .permanentAddress(networkCard.getPermanentAddress())
+                .pnpDeviceId(networkCard.getPnpDeviceId())
+                .powerManagementSupported(networkCard.getPowerManagementSupported())
+                .productName(networkCard.getProductName())
+                .speed(networkCard.getSpeed())
+                .status(networkCard.getStatus())
+                .build();
+    }
+
+    InstalledApplicationVm parse(InstalledApplication installedApplication) {
+        return InstalledApplicationVm.builder()
+                .caption(installedApplication.getCaption())
+                .description(installedApplication.getDescription())
+                .identifyingNumber(installedApplication.getIdentifyingNumber())
+                .installDate(installedApplication.getInstallDate())
+                .installSource(installedApplication.getInstallSource())
+                .name(installedApplication.getName())
+                .vendor(installedApplication.getVendor())
+                .version(installedApplication.getVersion())
+                .localPackages(installedApplication.getLocalPackages())
+                .build();
+    }
 }
