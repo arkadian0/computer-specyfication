@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class FindComputerServiceAdapter implements FindComputersServicePort {
 
     private void addExistingAddressToList(List<ComputerInNetworkDTO> computersInLocalArea, String fullAddress) {
         try {
-            LocalDateTime generationDate = computerParametersQueryPort.getGenerationDateByIpAddress(fullAddress);
+            Timestamp generationDate = computerParametersQueryPort.getLastGenerationDateByIpAddress(fullAddress);
             ComputerInNetworkDTO computerInNetworkDTO = buildComputerInNetworkByFullAddress(fullAddress,generationDate);
             computersInLocalArea.add(computerInNetworkDTO);
         } catch (UnknownHostException ex) {
@@ -50,7 +51,7 @@ public class FindComputerServiceAdapter implements FindComputersServicePort {
     }
     }
 
-    private ComputerInNetworkDTO buildComputerInNetworkByFullAddress(String fullAddress, LocalDateTime generationDate) throws UnknownHostException {
+    private ComputerInNetworkDTO buildComputerInNetworkByFullAddress(String fullAddress, Timestamp generationDate) throws UnknownHostException {
         return ComputerInNetworkDTO.builder()
                 .ipAddress(fullAddress)
                 .computerName(InetAddress.getByName(fullAddress).getHostName())

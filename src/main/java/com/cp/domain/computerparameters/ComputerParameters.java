@@ -2,9 +2,8 @@ package com.cp.domain.computerparameters;
 
 
 import lombok.*;
-
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.Date;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,9 +20,9 @@ class ComputerParameters implements ComputerParametersProjection {
     private Integer computerId;
     @Column(name = "name")
     private String computerName;
-    @Column(name = "ip_address",unique = true)
+    @Column(name = "ip_address")
     private String ipAddress;
-    @Column(name = "generation_date", nullable = false)
+    @Column(name = "generation_date",nullable = false)
     private LocalDateTime generationDate;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="computer_id")

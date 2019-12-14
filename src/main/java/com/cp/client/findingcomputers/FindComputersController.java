@@ -20,9 +20,5 @@ public class FindComputersController {
         return findComputersApplicationPort.getActiveComputersByIpRangeInLocalArea(addressRangeCommand);
     }
 
-    @GetMapping("/isActive")
-    public boolean checkComputerResponse() {
-        return true;
-    }
 }
 

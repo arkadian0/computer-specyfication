@@ -88,7 +88,6 @@ public class UnmarshallCmdAdapter implements UnmarshallCmdPort {
             if (isLastParameterInGroup(counter++, numberOfParameters)) {
                 parametersList.add(tempList);
                 tempList = new ArrayList<>();
-                tempList.add(str);
             }
         }
     }

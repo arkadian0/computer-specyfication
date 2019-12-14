@@ -1,18 +1,21 @@
 package com.cp.domain.computerparameters;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ComputerParametersProjection {
 
     Integer getComputerId();
 
-    List<Bios> getBios();
-
-    List<CaptureDevice> getCaptureDevices();
-
     String getComputerName();
 
     String getIpAddress();
+
+    LocalDateTime generationDate();
+
+    List<Bios> getBios();
+
+    List<CaptureDevice> getCaptureDevices();
 
     List<DirectInputDevice> getDirectInputDevices();
 

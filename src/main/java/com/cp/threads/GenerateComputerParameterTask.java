@@ -29,15 +29,7 @@ public class GenerateComputerParameterTask {
     public void createXmlFileContainsDxDiagParametersOfComputer() throws IOException, JAXBException, InterruptedException {
         String pathFile = crateSpecificationComputerXmlFile(computerSpecyficationFileName);
         executeDxDiagCmdCommand(pathFile);
-
-        String ipAddress = getIpAddressOfComputer();
-        String computerName = getComputerName();
-
-        specificationComputerApplicationPort.persistComputerParameters(computerName, ipAddress);
-    }
-
-    private String getIpAddressOfComputer() throws UnknownHostException {
-        return InetAddress.getLocalHost().getHostAddress().trim();
+        specificationComputerApplicationPort.generateAndPersistComputerParameters();
     }
 
     private String crateSpecificationComputerXmlFile(String xmlFileName) throws IOException {
@@ -60,13 +52,6 @@ public class GenerateComputerParameterTask {
         } catch (Exception e) {
             throw new IllegalStateException("Cannot execute cmd command : cmd /c start /wait dxdiag /x " + pathfile);
         }
-    }
-
-    private String getComputerName() {
-        Map<String, String> env = System.getenv();
-        if (env.containsKey("COMPUTERNAME"))
-            return env.get("COMPUTERNAME");
-        else return env.getOrDefault("HOSTNAME", "Unknown Computer");
     }
 
 }

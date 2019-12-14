@@ -1,6 +1,5 @@
 package com.cp.client.computerparameters;
 
-import com.cp.application.ports.SpecificationComputerApplicationPort;
 import com.cp.domain.computerparameters.port.ComputerParametersQueryPort;
 import com.cp.domain.computerparameters.view.*;
 import lombok.AllArgsConstructor;
@@ -9,113 +8,185 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/parameter")
 public class ComputerParametersQueryController {
-    private final SpecificationComputerApplicationPort specificationComputerApplicationPort;
     private final ComputerParametersQueryPort computerParametersQueryPort;
 
-    @GetMapping("/bios/{ipAddress}")
-    public Collection<BiosVM> getBiosParametersByComputerName(@PathVariable String ipAddress){
-        return computerParametersQueryPort.getBiosByIpAddress(ipAddress);
+    @GetMapping("/last-generated/bios/{ipAddress}")
+    public Collection<BiosVM> getLastBiosParametersByIpAddress(@PathVariable String ipAddress){
+        return computerParametersQueryPort.getLastBiosParametersByIpAddress(ipAddress);
+    }
+    @GetMapping("/bios/{computerId}")
+    public Collection<BiosVM> getBiosParametersByComputerId(@PathVariable Integer computerId){
+        return computerParametersQueryPort.getBiosParametersByComputerId(computerId);
     }
 
-    @GetMapping("/capture-devices/{ipAddress}")
-    public Collection<CaptureDeviceVm> getCaptureDevicesByComputerName(@PathVariable String ipAddress){
-        return computerParametersQueryPort.getCaptureDevicesByIpAddress(ipAddress);
+    @GetMapping("/last-generated/capture-devices/{ipAddress}")
+    public Collection<CaptureDeviceVm> getLastCaptureDevicesByIpAddress(@PathVariable String ipAddress){
+        return computerParametersQueryPort.getLastCaptureDevicesByIpAddress(ipAddress);
     }
 
-    @GetMapping("/direct-input-devices/{ipAddress}")
-    public Collection<DirectInputDeviceVm> getDirectInputDevicesByComputerName(@PathVariable String ipAddress){
-        return computerParametersQueryPort.getDirectInputDevicesByIpAddress(ipAddress);
+    @GetMapping("/capture-devices/{computerId}")
+    public Collection<CaptureDeviceVm> getCaptureDevicesByComputerId(@PathVariable Integer computerId){
+        return computerParametersQueryPort.getCaptureDevicesByComputerId(computerId);
     }
 
-    @GetMapping("/display-devices/{ipAddress}")
-    public Collection<DisplayDeviceVm> getDisplayDevicesByComputerName(@PathVariable String ipAddress){
-        return computerParametersQueryPort.getDisplayDevicesByIpAddress(ipAddress);
+
+    @GetMapping("/last-generated/direct-input-devices/{ipAddress}")
+    public Collection<DirectInputDeviceVm> getLastDirectInputDevicesByIpAddress(@PathVariable String ipAddress){
+        return computerParametersQueryPort.getLastDirectInputDevicesByIpAddress(ipAddress);
+    }
+    @GetMapping("/direct-input-devices/{computerId}")
+    public Collection<DirectInputDeviceVm> getDirectInputDevicesByComputerId(@PathVariable Integer computerId){
+        return computerParametersQueryPort.getDirectInputDevicesByComputerId(computerId);
     }
 
-    @GetMapping("/hard-drives/{ipAddress}")
-    public Collection<HardDriveVm> getHardDriveByComputerName(@PathVariable String ipAddress){
-        return computerParametersQueryPort.getHardDrivesByIpAddress(ipAddress);
+
+    @GetMapping("/last-generated/display-devices/{ipAddress}")
+    public Collection<DisplayDeviceVm> getLastDisplayDevicesByIpAddress(@PathVariable String ipAddress){
+        return computerParametersQueryPort.getLastDisplayDevicesByIpAddress(ipAddress);
+    }
+    @GetMapping("/display-devices/{ipAddress")
+    public Collection<DisplayDeviceVm> getDisplayDevicesByComputerId(@PathVariable Integer computerId){
+        return computerParametersQueryPort.getDisplayDevicesByComputerId(computerId);
     }
 
-    @GetMapping("/internal-memories/{ipAddress}")
-    public Collection<InternalMemoryVm> getInternalMemoriesByComputerName(@PathVariable String ipAddress){
-        return computerParametersQueryPort.getInternalMemoriesByIpAddress(ipAddress);
+
+    @GetMapping("/last-generated/hard-drives/{ipAddress}")
+    public Collection<HardDriveVm> getLastHardDrivesParametersByIpAddress(@PathVariable String ipAddress ){
+        return computerParametersQueryPort.getLastHardDrivesParametersByIpAddress(ipAddress);
     }
 
-    @GetMapping("/operating-systems/{ipAddress}")
-    public Collection<OperatingSystemVm> getOperatingSystemsByComputerName(@PathVariable String ipAddress){
-        return computerParametersQueryPort.getOperatingSystemsByIpAddress(ipAddress);
+    @GetMapping("/hard-drives/{computerId}")
+    public Collection<HardDriveVm> getHardDrivesByComputerId(@PathVariable Integer computerId ){
+        return computerParametersQueryPort.getHardDrivesByComputerId(computerId);
     }
 
-    @GetMapping("/processors/{ipAddress}")
-    public Collection<ProcessorVm> getProcessorsByComputerName(@PathVariable String ipAddress){
-        return computerParametersQueryPort.getProcessorsByIpAddress(ipAddress);
+    @GetMapping("/last-generated/internal-memories/{ipAddress}")
+    public Collection<InternalMemoryVm> getLastInternalMemoriesParametersByIpAddress(@PathVariable String ipAddress){
+        return computerParametersQueryPort.getLastInternalMemoriesParametersByIpAddress(ipAddress);
     }
 
-    @GetMapping("/ps2-devices/{ipAddress}")
-    public Collection<Ps2DeviceVm> getPs2DevicesByComputerName(@PathVariable String ipAddress){
-        return computerParametersQueryPort.getPs2DevicesByIpAddress(ipAddress);
+    @GetMapping("/internal-memories/{computerId}")
+    public Collection<InternalMemoryVm> getInternalMemorieByComputerId(@PathVariable Integer computerId){
+        return computerParametersQueryPort.getInternalMemorieByComputerId(computerId);
     }
 
-    @GetMapping("/sound-devices/{ipAddress}")
-    public Collection<SoundDeviceVm> getSoundDevicesByComputerName(@PathVariable String ipAddress){
-        return computerParametersQueryPort.getSoundDevicesByIpAddress(ipAddress);
+
+    @GetMapping("/last-generated/operating-systems/{ipAddress}")
+    public Collection<OperatingSystemVm> getLastOperatingSystemsParametersByIpAddress(@PathVariable String ipAddress){
+        return computerParametersQueryPort.getLastOperatingSystemsParametersByIpAddress(ipAddress);
     }
 
-    @GetMapping("/system-devices/{ipAddress}")//error
-    public Collection<SystemDeviceVm> getSystemDevicesByComputerName(@PathVariable String ipAddress){
-        return computerParametersQueryPort.getSystemDevicesByIpAddress(ipAddress);
+    @GetMapping("/operating-systems/{computerId}")
+    public Collection<OperatingSystemVm> getOperatingSystemsByComputerId(@PathVariable Integer computerId){
+        return computerParametersQueryPort.getOperatingSystemsByComputerId(computerId);
     }
 
-    @GetMapping("/system-users/{ipAddress}")
-    public Collection<SystemUserVm> getSystemUsersByComputerName(@PathVariable String ipAddress){
-        return computerParametersQueryPort.getSystemUsersByIpAddress(ipAddress);
+    @GetMapping("/last-generated/processors/{ipAddress}")
+    public Collection<ProcessorVm> getLastProcessorsParametersByIpAddress(@PathVariable String ipAddress){
+        return computerParametersQueryPort.getLastProcessorsParametersByIpAddress(ipAddress);
     }
 
-    @GetMapping("/usb-devices/{ipAddress}")
-    public Collection<UsbDeviceVm> getUsbDevicesByComputerName(@PathVariable String ipAddress){
-        return computerParametersQueryPort.getUsbDevicesByIpAddress(ipAddress);
+    @GetMapping("/processors/{computerId}")
+    public Collection<ProcessorVm> getProcessorsByComputerId(@PathVariable Integer computerId){
+        return computerParametersQueryPort.getProcessorsByComputerId(computerId);
     }
 
-    @GetMapping("/video-devices/{ipAddress}")
-    public Collection<VideoDeviceVm> getVideoDevicesByComputerName(@PathVariable String ipAddress){
-        return computerParametersQueryPort.getVideoDevicesByIpAddress(ipAddress);
+    @GetMapping("/last-generated/ps2-devices/{ipAddress}")
+    public Collection<Ps2DeviceVm> getLastPs2DevicesByIpAddress(@PathVariable String ipAddress){
+        return computerParametersQueryPort.getLastPs2DevicesByIpAddress(ipAddress);
     }
 
-    @GetMapping("/network-cards/{ipAddress}")
-    public Collection<NetworkCardVm> getNetworkCardsByComputerName(@PathVariable String ipAddress){
-        return computerParametersQueryPort.getNetworkCardsByComputerName(ipAddress);
+    @GetMapping("/ps2-devices/{computerId}")
+    public Collection<Ps2DeviceVm> getPs2DevicesByComputerId(@PathVariable Integer computerId){
+        return computerParametersQueryPort.getPs2DevicesByComputerId(computerId);
     }
 
-    @GetMapping("/installed-applications/{ipAddress}")
-    public Collection<InstalledApplicationVm> getInstalledApplicationByComputerName(@PathVariable String ipAddress){
-        return computerParametersQueryPort.getInstalledApplicationByComputerName(ipAddress);
+
+    @GetMapping("/last-generated/sound-devices/{ipAddress}")
+    public Collection<SoundDeviceVm> getLastSoundDevicesByIpAddress(@PathVariable String ipAddress){
+        return computerParametersQueryPort.getLastSoundDevicesByIpAddress(ipAddress);
+    }
+    @GetMapping("/sound-devices/{computerId}")
+    public Collection<SoundDeviceVm> getSoundDevicesByComputerId(@PathVariable Integer computerId){
+        return computerParametersQueryPort.getSoundDevicesByComputerId(computerId);
     }
 
-    @GetMapping("/all-parameters")
-    public Collection<ComputerParametersVm> getComputerParameterfOfAllComputers(){
-        return computerParametersQueryPort.getComputerParameterfOfAllComputers();
+
+    @GetMapping("/last-generated/system-devices/{ipAddress}")
+    public Collection<SystemDeviceVm> getLastSystemDevicesByIpAddress(@PathVariable String ipAddress){
+        return computerParametersQueryPort.getLastSystemDevicesByIpAddress(ipAddress);
     }
-    @GetMapping("/all-parameters/{ipAddress}")
-    public ComputerParametersVm getComputerParametersByIpAddress(@PathVariable String ipAddress){
-        return computerParametersQueryPort.getComputerParametersByIpAddress(ipAddress);
+    @GetMapping("/system-devices/{computerId}")
+    public Collection<SystemDeviceVm> getSystemDevicesByComputerId(@PathVariable Integer computerId){
+        return computerParametersQueryPort.getSystemDevicesByComputerId(computerId);
     }
 
-    @GetMapping("/generated/{ipAddress}")
-    public boolean isGeneratedComputerParameters(@PathVariable String ipAddress) {
-        return specificationComputerApplicationPort.isGeneratedComputerParameters(ipAddress);
+
+    @GetMapping("/last-generated/system-users/{ipAddress}")
+    public Collection<SystemUserVm> getLastSystemUsersByIpAddress(@PathVariable String ipAddress){
+        return computerParametersQueryPort.getLastSystemUsersByIpAddress(ipAddress);
     }
 
-    @GetMapping("/generation-date/{ipAddress}")
-    public LocalDateTime getGenerationDateByIpAddress(@PathVariable String ipAddress) {
-        return computerParametersQueryPort.getGenerationDateByIpAddress(ipAddress);
+    @GetMapping("/system-users/{computerId}")
+    public Collection<SystemUserVm> getSystemUsersByComputerId(@PathVariable Integer computerId){
+        return computerParametersQueryPort.getSystemUsersByComputerId(computerId);
     }
+
+    @GetMapping("/last-generated/usb-devices/{ipAddress}")
+    public Collection<UsbDeviceVm> getLastUsbDevicesByIpAddress(@PathVariable String ipAddress){
+        return computerParametersQueryPort.getLastUsbDevicesByIpAddress(ipAddress);
+    }
+
+    @GetMapping("/usb-devices/{computerId}")
+    public Collection<UsbDeviceVm> getUsbDevicesByComputerId(@PathVariable Integer computerId){
+        return computerParametersQueryPort.getUsbDevicesByComputerId(computerId);
+    }
+
+
+    @GetMapping("/last-generated/video-devices/{ipAddress}")
+    public Collection<VideoDeviceVm> getLastVideoDevicesByIpAddress(@PathVariable String ipAddress){
+        return computerParametersQueryPort.getLastVideoDevicesByIpAddress(ipAddress);
+    }
+
+    @GetMapping("/video-devices/{computerId}")
+    public Collection<VideoDeviceVm> getVideoDevicesByComputerId(@PathVariable Integer computerId){
+        return computerParametersQueryPort.getVideoDevicesByComputerId(computerId);
+    }
+
+    @GetMapping("/last-generated/network-cards/{ipAddress}")
+    public Collection<NetworkCardVm> getLastNetworkCardsByIpAddress(@PathVariable String ipAddress){
+        return computerParametersQueryPort.getLastNetworkCardsByIpAddress(ipAddress);
+    }
+
+    @GetMapping("/network-cards/{computerId}")
+    public Collection<NetworkCardVm> getNetworkCardsByComputerId(@PathVariable Integer computerId){
+        return computerParametersQueryPort.getNetworkCardsByComputerId(computerId);
+    }
+    @GetMapping("/last-generated/installed-applications/{ipAddress}")
+    public Collection<InstalledApplicationVm> getLastInstalledApplicationsByIpAddress(@PathVariable String ipAddress ){
+        return computerParametersQueryPort.getLastInstalledApplicationsByIpAddress(ipAddress);
+    }
+
+    @GetMapping("/last-generated/installed-applications/{computerId}")
+    public Collection<InstalledApplicationVm> getInstalledApplicationsByComputerId(@PathVariable Integer computerId ){
+        return computerParametersQueryPort.getInstalledApplicationsByComputerId(computerId);
+    }
+
+    @GetMapping("/last-generated/all-parameters/{ipAddress}")
+    public ComputerParametersVm getLastComputerParametersByIpAddress(@PathVariable String ipAddress){
+        return computerParametersQueryPort.getLastComputerParametersByIpAddress(ipAddress);
+    }
+
+    @GetMapping("/all-parameters/{computerId}")
+    public ComputerParametersVm getComputerParametersByComputerId(@PathVariable Integer computerId){
+        return computerParametersQueryPort.getComputerParametersByComputerId(computerId);
+    }
+
 
 }

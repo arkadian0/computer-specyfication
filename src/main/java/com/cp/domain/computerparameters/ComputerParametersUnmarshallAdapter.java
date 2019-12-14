@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,7 +33,10 @@ class ComputerParametersUnmarshallAdapter extends CmdCommandValue implements Com
 
 
     @Override
-    public ComputerParameters generateComputerParameters(String computerName, String ipAddress) throws IOException, InterruptedException {
+    public ComputerParameters generateComputerParameters() throws IOException {
+        InetAddress inetAddress = InetAddress.getLocalHost();
+        String ipAddress =  inetAddress.getHostAddress();
+        String computerName = inetAddress.getHostName();
         List<DisplayDevice> displayDevices = generateGraphicCard();
         List<OperatingSystem> operatingSystems = generateOperatingSystem();
         List<HardDrive> hardDrives = generateHardDrive();

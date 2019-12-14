@@ -272,4 +272,5 @@ public class ComputerParametersParser {
                 .localPackages(installedApplication.getLocalPackages())
                 .build();
     }
+
 }

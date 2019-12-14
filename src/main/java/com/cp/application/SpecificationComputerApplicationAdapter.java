@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,20 +18,10 @@ public class SpecificationComputerApplicationAdapter implements SpecificationCom
     private final ComputerParametersQueryPort computerParametersQueryPort;
 
     @Override
-    public ComputerParametersProjection persistComputerParameters(String computerName, String ipAddress) throws InterruptedException, JAXBException, IOException {
-        ComputerParametersProjection generatedComputerParameters = computerParametersGeneratePort.generateComputerParameters(computerName, ipAddress);
-
-        Optional<ComputerParametersProjection> findedComputerParameters = computerParametersQueryPort.findComputerByIpAddress(ipAddress);
-
-        findedComputerParameters.ifPresent(computerParametersProjection -> computerParametersQueryPort.deleteComputerParametersById(computerParametersProjection.getComputerId()));
-
-        return computerParametersQueryPort.persistComputerParameters(generatedComputerParameters);
-    }
-
-    @Override
-    public boolean isGeneratedComputerParameters(String ipAddress) {
-        Optional<ComputerParametersProjection> findedComputerParameters = computerParametersQueryPort.findComputerByIpAddress(ipAddress);
-        return findedComputerParameters.isPresent();
+    public boolean generateAndPersistComputerParameters() throws InterruptedException, JAXBException, IOException {
+        ComputerParametersProjection generatedComputerParameters = computerParametersGeneratePort.generateComputerParameters();
+        ComputerParametersProjection persistedComputerParameters = computerParametersQueryPort.persistComputerParameters(generatedComputerParameters);
+        return persistedComputerParameters != null;
     }
 
 }
