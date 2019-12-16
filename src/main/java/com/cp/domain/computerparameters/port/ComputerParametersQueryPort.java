@@ -4,63 +4,64 @@ import com.cp.client.transfer.ComputerInfoDTO;
 import com.cp.domain.computerparameters.ComputerParametersProjection;
 import com.cp.domain.computerparameters.view.*;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
 public interface ComputerParametersQueryPort {
-    Collection<BiosVM> getLastBiosParametersByIpAddress(String ipAddress);
+    Collection<BiosVM> getLastBiosParametersByComputerName(String computerName);
     Collection<BiosVM> getBiosParametersByComputerId(Integer computerId);
 
-    Collection<CaptureDeviceVm> getLastCaptureDevicesByIpAddress(String ipAddress);
+    Collection<CaptureDeviceVm> getLastCaptureDevicesByComputerName(String computerName);
     Collection<CaptureDeviceVm> getCaptureDevicesByComputerId(Integer computerId);
 
-    Collection<DirectInputDeviceVm> getLastDirectInputDevicesByIpAddress(String ipAddress);
+    Collection<DirectInputDeviceVm> getLastDirectInputDevicesByComputerName(String computerName);
     Collection<DirectInputDeviceVm> getDirectInputDevicesByComputerId(Integer computerId);
 
-    Collection<DisplayDeviceVm> getLastDisplayDevicesByIpAddress(String ipAddress);
+    Collection<DisplayDeviceVm> getLastDisplayDevicesByComputerName(String computerName);
     Collection<DisplayDeviceVm> getDisplayDevicesByComputerId(Integer computerId);
 
-    Collection<HardDriveVm> getLastHardDrivesParametersByIpAddress(String ipAddress);
+    Collection<HardDriveVm> getLastHardDrivesParametersByComputerName(String computerName);
     Collection<HardDriveVm> getHardDrivesByComputerId(Integer computerId);
 
-    Collection<InternalMemoryVm> getLastInternalMemoriesParametersByIpAddress(String ipAddress);
+    Collection<InternalMemoryVm> getLastInternalMemoriesParametersByComputerName(String computerName);
     Collection<InternalMemoryVm> getInternalMemorieByComputerId(Integer computerId);
 
-    Collection<OperatingSystemVm> getLastOperatingSystemsParametersByIpAddress(String ipAddress);
+    Collection<OperatingSystemVm> getLastOperatingSystemsParametersByComputerName(String computerName);
     Collection<OperatingSystemVm> getOperatingSystemsByComputerId(Integer computerId);
 
-    Collection<ProcessorVm> getLastProcessorsParametersByIpAddress(String ipAddress);
+    Collection<ProcessorVm> getLastProcessorsParametersByComputerName(String computerName);
     Collection<ProcessorVm> getProcessorsByComputerId(Integer computerId);
 
-    Collection<Ps2DeviceVm> getLastPs2DevicesByIpAddress(String ipAddress);
+    Collection<Ps2DeviceVm> getLastPs2DevicesByComputerName(String computerName);
     Collection<Ps2DeviceVm> getPs2DevicesByComputerId(Integer computerId);
 
-    Collection<SoundDeviceVm> getLastSoundDevicesByIpAddress(String ipAddress);
+    Collection<SoundDeviceVm> getLastSoundDevicesByComputerName(String computerName);
     Collection<SoundDeviceVm> getSoundDevicesByComputerId(Integer computerId);
 
-    Collection<SystemDeviceVm> getLastSystemDevicesByIpAddress(String ipAddress);
+    Collection<SystemDeviceVm> getLastSystemDevicesByComputerName(String computerName);
     Collection<SystemDeviceVm> getSystemDevicesByComputerId(Integer computerId);
 
-    Collection<SystemUserVm> getLastSystemUsersByIpAddress(String ipAddress);
+    Collection<SystemUserVm> getLastSystemUsersByComputerName(String computerName);
     Collection<SystemUserVm> getSystemUsersByComputerId(Integer computerId);
 
-    Collection<UsbDeviceVm> getLastUsbDevicesByIpAddress(String ipAddress);
+    Collection<UsbDeviceVm> getLastUsbDevicesByComputerName(String computerName);
     Collection<UsbDeviceVm> getUsbDevicesByComputerId(Integer computerId);
 
-    Collection<VideoDeviceVm> getLastVideoDevicesByIpAddress(String ipAddress);
+    Collection<VideoDeviceVm> getLastVideoDevicesByComputerName(String computerName);
     Collection<VideoDeviceVm> getVideoDevicesByComputerId(Integer computerId);
 
     ComputerParametersProjection persistComputerParameters(ComputerParametersProjection computerParametersProjection);
 
-    Collection<NetworkCardVm> getLastNetworkCardsByIpAddress(String ipAddress);
+    Collection<NetworkCardVm> getLastNetworkCardsByComputerName(String computerName);
     Collection<NetworkCardVm> getNetworkCardsByComputerId(Integer computerId);
 
-    Collection<InstalledApplicationVm> getLastInstalledApplicationsByIpAddress(String ipAddress);
+    Collection<InstalledApplicationVm> getLastInstalledApplicationsByComputerName(String computerName);
     Collection<InstalledApplicationVm> getInstalledApplicationsByComputerId(Integer computerId);
 
-    ComputerParametersVm getLastComputerParametersByIpAddress(String ipAddress);
+    ComputerParametersVm getLastComputerParametersByComputerName(String computerName);
     ComputerParametersVm getComputerParametersByComputerId(Integer computerId);
 
-
+    LocalDateTime getLastGenerationDateByComputerName(String computerName);
     List<ComputerInfoDTO> getInformationOfAllComputers();
 }

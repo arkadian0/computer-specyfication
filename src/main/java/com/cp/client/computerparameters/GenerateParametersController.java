@@ -1,7 +1,6 @@
 package com.cp.client.computerparameters;
 
 import com.cp.application.ports.SpecificationComputerApplicationPort;
-import com.cp.domain.computerparameters.ComputerParametersProjection;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -12,7 +12,7 @@ import java.util.Optional;
 interface ComputerParametersRepository extends Repository<ComputerParameters, Integer>, JpaRepository<ComputerParameters,Integer> {
 
 
-    Optional<ComputerParameters> findFirstByIpAddressOrderByGenerationDateDesc(String ipAddress);
+    Optional<ComputerParameters> findFirstByComputerNameOrderByGenerationDateDesc(String ipAddress);
 
     Optional<ComputerParameters> findByComputerId(Integer computerId);
 

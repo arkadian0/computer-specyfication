@@ -11,7 +11,7 @@ public interface ComputerParametersProjection {
 
     String getIpAddress();
 
-    LocalDateTime generationDate();
+    LocalDateTime getGenerationDate();
 
     List<Bios> getBios();
 

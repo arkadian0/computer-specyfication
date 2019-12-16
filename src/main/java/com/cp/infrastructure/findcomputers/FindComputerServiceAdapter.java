@@ -43,18 +43,19 @@ public class FindComputerServiceAdapter implements FindComputersServicePort {
 
     private void addExistingAddressToList(List<ComputerInNetworkDTO> computersInLocalArea, String fullAddress) {
         try {
-            Timestamp generationDate = computerParametersQueryPort.getLastGenerationDateByIpAddress(fullAddress);
-            ComputerInNetworkDTO computerInNetworkDTO = buildComputerInNetworkByFullAddress(fullAddress,generationDate);
+            String computerName = InetAddress.getByName(fullAddress).getHostName();
+            LocalDateTime generationDate = computerParametersQueryPort.getLastGenerationDateByComputerName(computerName);
+            ComputerInNetworkDTO computerInNetworkDTO = buildComputerInNetworkByFullAddress(fullAddress,generationDate,computerName);
             computersInLocalArea.add(computerInNetworkDTO);
         } catch (UnknownHostException ex) {
         throw new IllegalStateException("Problem with connection to given ip address: " + fullAddress);
     }
     }
 
-    private ComputerInNetworkDTO buildComputerInNetworkByFullAddress(String fullAddress, Timestamp generationDate) throws UnknownHostException {
+    private ComputerInNetworkDTO buildComputerInNetworkByFullAddress(String fullAddress, LocalDateTime generationDate, String computerName) throws UnknownHostException {
         return ComputerInNetworkDTO.builder()
                 .ipAddress(fullAddress)
-                .computerName(InetAddress.getByName(fullAddress).getHostName())
+                .computerName(computerName)
                 .generationDate(generationDate)
                 .build();
 
