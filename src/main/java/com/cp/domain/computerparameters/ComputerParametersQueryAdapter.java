@@ -7,10 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -335,9 +335,33 @@ public class ComputerParametersQueryAdapter implements ComputerParametersQueryPo
     }
 
     @Override
-    public List<ComputerInfoDTO> getInformationOfAllComputers() {
-        return computerParametersRepository.getInformationOfAllComputers();
+    public List<ComputerInfoDTO> getAllComputersByComputerName(String computerName) {
+        return computerParametersRepository.findAllComputersByComputerName(computerName);
     }
 
+     /*@Override
+    public List<ComputerInfoDTO> getAllComputerInformationGroupedByComputerName() {
+        Optional<Collection<ComputerParameters>> computerParameters = computerParametersRepository.findAllComputersGroupByComputerName();
+        return computerParameters.map(computerParameters1 -> computerParameters1.stream()
+                .map(parser::parseToComputerInfoDto)
+                .collect(Collectors.toList()))
+                .orElse(Collections.emptyList());
+
+    }
+    */
+
+    @Override
+    public List<ComputerInfoDTO> getAllComputerInformationGroupedByComputerName() {
+        List<ComputerParameters> computerParameters = computerParametersRepository.findAll();
+        return computerParameters != null ? computerParameters.stream()
+                .map(parser::parseToComputerInfoDto)
+                .filter(distinctByKey(ComputerInfoDTO::getComputerName))
+                .collect(Collectors.toList()) : Collections.emptyList();
+    }
+
+    private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(keyExtractor.apply(t));
+    }
 
 }

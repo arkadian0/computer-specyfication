@@ -1,5 +1,7 @@
 package com.cp.domain.computerparameters;
 
+import com.cp.client.transfer.ComputerInNetworkDTO;
+import com.cp.client.transfer.ComputerInfoDTO;
 import com.cp.domain.computerparameters.view.*;
 import org.springframework.stereotype.Component;
 
@@ -211,6 +213,7 @@ public class ComputerParametersParser {
 
     ComputerParametersVm parse(ComputerParameters computerParameters) {
         return ComputerParametersVm.builder()
+                .generationDate(computerParameters.getGenerationDate())
                 .biosVM(computerParameters.getBios().stream().map(this::parse).collect(Collectors.toList()))
                 .captureDeviceVm(computerParameters.getCaptureDevices().stream().map(this::parse).collect(Collectors.toList()))
                 .directInputDeviceVm(computerParameters.getDirectInputDevices().stream().map(this::parse).collect(Collectors.toList()))
@@ -270,6 +273,15 @@ public class ComputerParametersParser {
                 .vendor(installedApplication.getVendor())
                 .version(installedApplication.getVersion())
                 .localPackages(installedApplication.getLocalPackages())
+                .build();
+    }
+
+    ComputerInfoDTO parseToComputerInfoDto(ComputerParameters computerParameters) {
+        return ComputerInfoDTO.builder()
+                .computerId(computerParameters.getComputerId())
+                .computerName(computerParameters.getComputerName())
+                .generationDate(computerParameters.getGenerationDate())
+                .ipAddress(computerParameters.getIpAddress())
                 .build();
     }
 

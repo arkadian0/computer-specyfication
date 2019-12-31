@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,16 +27,12 @@ class ComputerParametersUnmarshallAdapter extends CmdCommandValue implements Com
     private final File xmlFileToUnMarshall;
     private DxDiagElement dxDiagElement;
 
-    @PostConstruct
-    private void postConstruct() throws JAXBException {
-        dxDiagElement = unmarshallXml.unmarshall(xmlFileToUnMarshall, DxDiagElement.class);
-    }
-
 
     @Override
-    public ComputerParameters generateComputerParameters() throws IOException {
+    public ComputerParameters generateComputerParameters() throws IOException, JAXBException {
+        dxDiagElement = unmarshallXml.unmarshall(xmlFileToUnMarshall, DxDiagElement.class);
         InetAddress inetAddress = InetAddress.getLocalHost();
-        String ipAddress =  inetAddress.getHostAddress();
+        String ipAddress = inetAddress.getHostAddress();
         String computerName = inetAddress.getHostName();
         List<DisplayDevice> displayDevices = generateGraphicCard();
         List<OperatingSystem> operatingSystems = generateOperatingSystem();
@@ -53,7 +50,7 @@ class ComputerParametersUnmarshallAdapter extends CmdCommandValue implements Com
         List<Ps2Device> ps2Devices = generatePs2Device();
         List<NetworkCard> networkCards = generateNetworkCard();
         List<InstalledApplication> installedApplications = generateInstalledApplication();
-        return ComputerParameters.of(displayDevices, operatingSystems, hardDrives, soundDevices, captureDevices, biosList, internalMemories, processors, users, videoDevices, systemDevices, directInputDevices, usbDevices, ps2Devices, computerName, ipAddress,networkCards,installedApplications);
+        return ComputerParameters.of(displayDevices, operatingSystems, hardDrives, soundDevices, captureDevices, biosList, internalMemories, processors, users, videoDevices, systemDevices, directInputDevices, usbDevices, ps2Devices, computerName, ipAddress, networkCards, installedApplications);
 
     }
 
@@ -79,7 +76,11 @@ class ComputerParametersUnmarshallAdapter extends CmdCommandValue implements Com
     }
 
     List<HardDrive> generateHardDrive() {
-        List<LogicalDiskElement> logicalDiskElements = dxDiagElement.getLogicalDiskRootElement().getLogicalDiskElements();
+        List<LogicalDiskElement> logicalDiskElements = new ArrayList<>();
+        if (dxDiagElement.getLogicalDiskRootElement() != null)
+            logicalDiskElements = dxDiagElement.getLogicalDiskRootElement().getLogicalDiskElements();
+        if (dxDiagElement.getLogicalDisksRootElement() != null)
+            logicalDiskElements = dxDiagElement.getLogicalDisksRootElement().getLogicalDiskElements();
         return Optional.ofNullable(logicalDiskElements)
                 .orElseGet(Collections::emptyList)
                 .stream()

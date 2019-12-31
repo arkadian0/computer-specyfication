@@ -38,7 +38,7 @@ class DisplayDevice {
     private String currentMode;
     @Column(name = "hdr_support")
     private String hdrSupport;
-    @Column(name = "driver_name")
+    @Column(name = "driver_name",length = 1200)
     private String driverName;
     @Column(name = "driver_version")
     private String driverVersion;

@@ -63,5 +63,6 @@ public interface ComputerParametersQueryPort {
     ComputerParametersVm getComputerParametersByComputerId(Integer computerId);
 
     LocalDateTime getLastGenerationDateByComputerName(String computerName);
-    List<ComputerInfoDTO> getInformationOfAllComputers();
+    List<ComputerInfoDTO> getAllComputersByComputerName(String computerName);
+    List<ComputerInfoDTO> getAllComputerInformationGroupedByComputerName();
 }

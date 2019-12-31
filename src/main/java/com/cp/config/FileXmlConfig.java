@@ -5,20 +5,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.IOException;
 
 @Configuration
 public class FileXmlConfig {
 
-    @Value("${computers-specyfication.filename}")
-    String fileName;
+    @Value("${computer-specifications.filename}")
+    String filepath;
 
     @Bean
-    public File xmlFileToUnmarshall(){
-        Path currentRelativePath = Paths.get("");
-        String path = currentRelativePath.toAbsolutePath().toString() + "\\" + fileName;
-        return new File(path);
+    public File xmlFileToUnmarshall() throws IOException {
+        File file =  new File(System.getProperty("user.home") + "/" + filepath);
+        file.createNewFile();
+        return file;
     }
 
 }

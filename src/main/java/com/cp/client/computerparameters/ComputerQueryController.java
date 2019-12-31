@@ -13,8 +13,18 @@ public class ComputerQueryController {
 
     private final ComputerParametersQueryPort computerParametersQueryPort;
 
-    @GetMapping("/info")
-    public List<ComputerInfoDTO> getOperatingSystem(){
-        return computerParametersQueryPort.getInformationOfAllComputers();
+    @GetMapping("/all/grouped")
+    public List<ComputerInfoDTO> getAllComputersGroupedByComputerName(){
+        return computerParametersQueryPort.getAllComputerInformationGroupedByComputerName();
+    }
+
+    @GetMapping("/all/{computerName}")
+    public List<ComputerInfoDTO> getAllComputersByComputerName(@PathVariable String computerName){
+        return computerParametersQueryPort.getAllComputersByComputerName(computerName);
+    }
+
+    @GetMapping("/isAvaliable")
+    public boolean isAvaliable(){
+        return true;
     }
 }

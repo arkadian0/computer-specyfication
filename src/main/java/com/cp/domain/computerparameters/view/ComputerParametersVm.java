@@ -1,10 +1,9 @@
 package com.cp.domain.computerparameters.view;
 
-import com.cp.domain.computerparameters.NetworkCard;
 import lombok.Builder;
 import lombok.Data;
-import sun.nio.ch.Net;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder
@@ -13,6 +12,7 @@ public class ComputerParametersVm {
     private Integer computerId;
     private String computerName;
     private String ipAddress;
+    private LocalDateTime generationDate;
     private List<BiosVM> biosVM;
     private List<CaptureDeviceVm> captureDeviceVm;
     private List<DirectInputDeviceVm> directInputDeviceVm;

@@ -19,6 +19,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class DxDiagElement {
 
     @XmlElement(name = "LogicalDisks")
+    private LogicalDisksRootElement logicalDisksRootElement;
+    @XmlElement(name = "LogicalDisk")
     private LogicalDiskRootElement logicalDiskRootElement;
     @XmlElement(name = "SystemInformation")
     private SystemInformationElement systemInfomationElement;

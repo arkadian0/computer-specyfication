@@ -1,3 +1,4 @@
+
 package com.cp.shared.model.xml;
 
 import lombok.AllArgsConstructor;
@@ -11,13 +12,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
-@XmlRootElement(name = "LogicalDisk")
+@XmlRootElement(name = "LogicalDisks")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LogicalDiskRootElement {
+public class LogicalDisksRootElement {
 
     @XmlElement(name = "LogicalDisk")
     private List<LogicalDiskElement> logicalDiskElements;

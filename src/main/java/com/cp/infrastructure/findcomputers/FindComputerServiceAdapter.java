@@ -43,7 +43,7 @@ public class FindComputerServiceAdapter implements FindComputersServicePort {
 
     private void addExistingAddressToList(List<ComputerInNetworkDTO> computersInLocalArea, String fullAddress) {
         try {
-            String computerName = InetAddress.getByName(fullAddress).getHostName();
+            String computerName = getComputerName(fullAddress);
             LocalDateTime generationDate = computerParametersQueryPort.getLastGenerationDateByComputerName(computerName);
             ComputerInNetworkDTO computerInNetworkDTO = buildComputerInNetworkByFullAddress(fullAddress,generationDate,computerName);
             computersInLocalArea.add(computerInNetworkDTO);
@@ -51,7 +51,12 @@ public class FindComputerServiceAdapter implements FindComputersServicePort {
         throw new IllegalStateException("Problem with connection to given ip address: " + fullAddress);
     }
     }
-
+    private String getComputerName(String fullAddress) throws UnknownHostException {
+        if(InetAddress.getLocalHost().getHostAddress().equals(fullAddress))
+            return InetAddress.getLocalHost().getHostName();
+        else
+            return InetAddress.getByName(fullAddress).getHostName();
+    }
     private ComputerInNetworkDTO buildComputerInNetworkByFullAddress(String fullAddress, LocalDateTime generationDate, String computerName) throws UnknownHostException {
         return ComputerInNetworkDTO.builder()
                 .ipAddress(fullAddress)
